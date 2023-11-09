@@ -24,12 +24,4 @@ public class CharacterFrequencyDTO {
     public void setFrequency(int frequency) {
         this.frequency = frequency;
     }
-
-    @Override
-    public String toString() {
-        return
-                "\"" + character +
-                        "\":" + frequency +
-                        ',';
-    }
 }

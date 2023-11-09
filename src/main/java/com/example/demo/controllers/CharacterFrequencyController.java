@@ -3,10 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.dto.CharacterFrequencyDTO;
 import com.example.demo.services.CharacterFrequencyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +17,8 @@ public class CharacterFrequencyController {
         this.characterFrequencyService = characterFrequencyService;
     }
 
-    @GetMapping("/charInStr/{Strings}")
-    public String getCharacterFrequencies(@PathVariable("Strings") String inputString) {
+    @GetMapping("/charInStr")
+    public String getCharacterFrequencies(@RequestParam("inputString") String inputString) {
         List<CharacterFrequencyDTO> frequencies  = characterFrequencyService.getCharacterFrequencies(inputString);
         StringBuilder result = new StringBuilder();
         for (CharacterFrequencyDTO dto:frequencies) {
