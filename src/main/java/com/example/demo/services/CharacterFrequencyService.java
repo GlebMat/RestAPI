@@ -10,15 +10,10 @@ import java.util.stream.Collectors;
 public class CharacterFrequencyService {
     public List<CharacterFrequencyDTO> getCharacterFrequencies(String str) {
         Map<Character, Integer> characterFrequencyMap = new TreeMap<>();
-        int count;
+
         for (char c : str.toCharArray()) {
-            count = 1;
-            if (characterFrequencyMap.containsKey(c)) {
-                count = characterFrequencyMap.get(c);
-                count++;
-                characterFrequencyMap.put(c, count);
-            }
-            characterFrequencyMap.put(c, count);
+            int count = characterFrequencyMap.getOrDefault(c, 0);
+            characterFrequencyMap.put(c, count + 1);
         }
 
         return characterFrequencyMap.entrySet().stream().map(entry -> new CharacterFrequencyDTO(entry.getKey(), entry.getValue()))
