@@ -19,9 +19,7 @@ public class CharacterFrequencyController {
 
     @GetMapping("/charInStr")
     public String getCharacterFrequencies(@RequestParam("inputString") String inputString) {
-        List<CharacterFrequencyDTO> frequencies = characterFrequencyService.getCharacterFrequencies(inputString);
-
-        return characterFrequencyService.listStringHandler(frequencies);
+        return characterFrequencyService.getCharacterFrequencies(inputString);
     }
 
 }

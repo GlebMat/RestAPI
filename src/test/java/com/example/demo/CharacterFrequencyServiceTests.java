@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -18,19 +19,12 @@ public class CharacterFrequencyServiceTests {
 
     @Test
     void testGetCharacterFrequencies() {
+
         String inputString = "aaaaabcccc";
-        List<CharacterFrequencyDTO> expected = new ArrayList<>();
-        expected.add(new CharacterFrequencyDTO('a', 5));
-        expected.add(new CharacterFrequencyDTO('c', 4));
-        expected.add(new CharacterFrequencyDTO('b', 1));
+        String expectedOutput = "\"a\":5, \"c\":4, \"b\":1";
 
-        List<CharacterFrequencyDTO> result = characterFrequencyService.getCharacterFrequencies(inputString);
+        String result = characterFrequencyService.getCharacterFrequencies(inputString);
 
-        assertEquals(expected.size(), result.size());
-
-        for (int i = 0; i < expected.size(); i++) {
-            assertEquals(expected.get(i).getCharacter(), result.get(i).getCharacter());
-            assertEquals(expected.get(i).getFrequency(), result.get(i).getFrequency());
-        }
+        assertEquals(expectedOutput, result);
     }
 }
