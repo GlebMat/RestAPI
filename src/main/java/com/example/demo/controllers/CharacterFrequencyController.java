@@ -19,13 +19,13 @@ public class CharacterFrequencyController {
 
     @GetMapping("/charInStr")
     public String getCharacterFrequencies(@RequestParam("inputString") String inputString) {
-        List<CharacterFrequencyDTO> frequencies  = characterFrequencyService.getCharacterFrequencies(inputString);
+        List<CharacterFrequencyDTO> frequencies = characterFrequencyService.getCharacterFrequencies(inputString);
         StringBuilder result = new StringBuilder();
-        for (CharacterFrequencyDTO dto:frequencies) {
+        for (CharacterFrequencyDTO dto : frequencies) {
             result.append("\"").append(dto.getCharacter()).append("\":").append(dto.getFrequency()).append(", ");
         }
-        if (result.length()>1){
-            result.setLength(result.length()-2);
+        if (result.length() > 1) {
+            result.setLength(result.length() - 2);
         }
         return result.toString();
     }

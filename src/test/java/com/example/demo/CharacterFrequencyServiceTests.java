@@ -19,10 +19,10 @@ public class CharacterFrequencyServiceTests {
     @Test
     void testGetCharacterFrequencies() {
         String inputString = "aaaaabcccc";
-        List<CharacterFrequencyDTO> expected = new  ArrayList<>();
+        List<CharacterFrequencyDTO> expected = new ArrayList<>();
         expected.add(new CharacterFrequencyDTO('a', 5));
         expected.add(new CharacterFrequencyDTO('c', 4));
-        expected.add( new CharacterFrequencyDTO('b', 1));
+        expected.add(new CharacterFrequencyDTO('b', 1));
 
         List<CharacterFrequencyDTO> result = characterFrequencyService.getCharacterFrequencies(inputString);
 
