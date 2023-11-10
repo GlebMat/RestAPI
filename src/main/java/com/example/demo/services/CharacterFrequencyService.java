@@ -20,4 +20,15 @@ public class CharacterFrequencyService {
                 .sorted(Comparator.comparingInt(CharacterFrequencyDTO::getFrequency).reversed())
                 .collect(Collectors.toList());
     }
+
+    public String listStringHandler(List<CharacterFrequencyDTO> frequencies) {
+        StringBuilder result = new StringBuilder();
+        for (CharacterFrequencyDTO dto : frequencies) {
+            result.append("\"").append(dto.getCharacter()).append("\":").append(dto.getFrequency()).append(", ");
+        }
+        if (result.length() > 1) {
+            result.setLength(result.length() - 2);
+        }
+        return result.toString();
+    }
 }
