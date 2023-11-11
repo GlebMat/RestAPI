@@ -1,6 +1,9 @@
 package com.example.demo.services;
 
 import com.example.demo.dto.CharacterFrequencyDTO;
+import com.example.demo.exception.InvalidInputException;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -9,23 +12,23 @@ import java.util.stream.Collectors;
 
 @Service
 public class CharacterFrequencyService {
-    public String getCharacterFrequencies(String inputString) {
-        if (inputString == null || inputString.isEmpty()) {
-            return "Параметр 'inputString' не может быть пустым.";
-        }
-        if (!isValidInput(inputString)) {
-            return "Недопустимые символы во входной строке.";
-        }
-        Map<Character, Integer> characterFrequencyMap = new TreeMap<>();
+    public String getCharacterFrequencies(@NotBlank @Pattern(regexp = "[a-zA-Zа-яА-Я0-9]+") String inputString) {
+        try {
+            validateInput(inputString);
 
-        for (char c : inputString.toCharArray()) {
-            int count = characterFrequencyMap.getOrDefault(c, 0);
-            characterFrequencyMap.put(c, count + 1);
+            Map<Character, Integer> characterFrequencyMap = new TreeMap<>();
+
+            for (char c : inputString.toCharArray()) {
+                int count = characterFrequencyMap.getOrDefault(c, 0);
+                characterFrequencyMap.put(c, count + 1);
+            }
+            List<CharacterFrequencyDTO> frequencies = characterFrequencyMap.entrySet().stream().map(entry -> new CharacterFrequencyDTO(entry.getKey(), entry.getValue()))
+                    .sorted(Comparator.comparingInt(CharacterFrequencyDTO::getFrequency).reversed())
+                    .collect(Collectors.toList());
+            return this.listStringHandler(frequencies);
+        } catch (InvalidInputException e) {
+            return e.getMessage();
         }
-        List<CharacterFrequencyDTO> frequencies = characterFrequencyMap.entrySet().stream().map(entry -> new CharacterFrequencyDTO(entry.getKey(), entry.getValue()))
-                .sorted(Comparator.comparingInt(CharacterFrequencyDTO::getFrequency).reversed())
-                .collect(Collectors.toList());
-        return this.listStringHandler(frequencies);
     }
 
     private String listStringHandler(List<CharacterFrequencyDTO> frequencies) {
@@ -41,5 +44,14 @@ public class CharacterFrequencyService {
 
     private boolean isValidInput(String inputString) {
         return inputString.matches("[a-zA-Zа-яА-Я0-9]+");
+    }
+
+    private void validateInput(String inputString) {
+        if (inputString == null || inputString.isEmpty()) {
+            throw new InvalidInputException("Параметр 'inputString' не может быть пустым.");
+        }
+        if (!isValidInput(inputString)) {
+            throw new InvalidInputException("Недопустимые символы во входной строке.");
+        }
     }
 }
